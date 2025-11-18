@@ -7,14 +7,14 @@ checkAuth();
 
 $db = (new Database())->connect();
 
-$donneurs = [];
+
 // Récupérer les statistiques
 $stmt = $db->prepare("SELECT COUNT(*) FROM donneurs");
 $stmt->execute();
 $donneurs = $stmt->fetchColumn();
 
-$stmt = $db->prepare("SELECT COUNT(*) FROM dons WHERE statut = ?");
-$stmt->execute(['valide']);
+$stmt = $db->prepare("SELECT COUNT(*) FROM dons");
+$stmt->execute();
 $dons = $stmt->fetchColumn();
 
 $stmt = $db->prepare("SELECT COUNT(*) FROM centres_collecte");
@@ -38,7 +38,11 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <?php include 'includes/header.php'; ?>
     <h2>Tableau de Bord <small class="text-muted">Bienvenue, <?= htmlspecialchars($_SESSION['nom']) ?></small></h2>
+    <div class="mt-3 mb-4">
+    
 
+    
+    </div>
 <div class="row mt-4">
   <div class="col-md-4 mb-3">
     <a href="liste_donneurs.php" class="card-link">

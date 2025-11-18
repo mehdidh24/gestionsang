@@ -1,0 +1,24 @@
+<?php
+require_once 'includes/auth.php';
+require_once 'config/database.php';
+checkAuth();
+
+// Vérifier si l'ID est bien présent
+if (!isset($_GET['id_donneur']) || !is_numeric($_GET['id_donneur'])) {
+    header("Location: liste_donneurs.php");
+    exit();
+}
+
+$id_donneur = $_GET['id_donneur'];
+
+// Connexion à la base de données
+$database = new Database();
+$db = $database->connect();
+
+// Requête préparée pour la sécurité
+$stmt = $db->prepare("DELETE FROM donneurs WHERE id_donneur = ?");
+$stmt->execute([$id_donneur]);
+
+header("Location: liste_donneurs.php");
+exit();
+?>

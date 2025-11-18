@@ -7,7 +7,7 @@ checkAuth();
 $db = (new Database())->connect();
 $stmt = $db->prepare("SELECT * FROM donneurs ORDER BY id_donneur DESC");
 $stmt->execute();
-$donneurs = $stmt->fetchAll();
+$donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -22,15 +22,15 @@ $donneurs = $stmt->fetchAll();
         <h3>Liste Donneurs</h3>
         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addDonneur">+ Nouveau</button>
         <table class="table table-striped">
-            <tr><th>ID</th><th>CIN</th><th>Groupe</th><th>Rhésus</th><th>Actions</th></tr>
+            <tr><th>ID</th><th>CIN</th><th>Groupe</th><th>Rhésus</th></tr>
             <?php foreach($donneurs as $d): ?>
             <tr>
                 <td><?= $d['id_donneur'] ?></td>
                 <td><?= $d['cin'] ?></td>
                 <td><?= $d['groupe_sanguin'] ?></td>
-                <td>Rh<?= $d['rhesus'] ?></td>
+                <td><?= $d['rhesus'] ?></td>
                 <td>
-                    <a href="supprimer_donneur.php?id=<?= $d['id_donneur'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer?')">Supprimer</a>
+                    <a href="supprimer_donneur.php?id_donneur=<?= $d['id_donneur'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer?')">Supprimer</a>
                 </td>
             </tr>
             <?php endforeach; ?>

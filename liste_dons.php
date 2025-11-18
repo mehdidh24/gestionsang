@@ -40,6 +40,9 @@ $dons = $stmt->fetchAll();
                         <td><?= $don['id_donneur'] ?></td>
                         
                         <td><?= $don['statut'] ?></td>
+                        <td>
+                        <a href="supprimer_don.php?id=<?= $d['id_don'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Supprimer?')">Supprimer</a>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
