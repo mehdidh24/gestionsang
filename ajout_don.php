@@ -4,8 +4,7 @@ require_once 'config/database.php';
 checkAuth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $database = new Database();
-    $db = $database->connect();
+    $database = (new Database())->connect();
 
     $id_donneur = $_POST['id_donneur'];
     $statut = $_POST['statut'];
