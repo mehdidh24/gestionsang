@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+session_start();
 }
 ?>
 <!Doctype html>
@@ -93,7 +93,14 @@ if (session_status() === PHP_SESSION_NONE) {
                         <i class="fas fa-exclamation-triangle me-1"></i>Besoins
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="etat_stock.php" class="nav-link">
+                        <i class="fas fa-boxes-stacked me-1"></i>État du Stock
+
+                    </a>
+                </li>
             </ul>
+
 
             <!-- Zone utilisateur -->
             <span class="navbar-text text-white">
