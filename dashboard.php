@@ -78,7 +78,8 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php if (!empty($alertes)): ?>
       <?php foreach ($alertes as $a): ?>
         <div class="alert alert-warning">
-          <strong><?= htmlspecialchars($a['groupe_sanguin']) ?></strong> - 
+          <strong><?= htmlspecialchars($a['groupe_sanguin']) ?></strong>
+          
           <?= htmlspecialchars($a['niveau_alerte']) ?>
         </div>
       <?php endforeach; ?>

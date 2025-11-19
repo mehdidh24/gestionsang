@@ -43,6 +43,8 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
                     <th>ID Donneur</th>
                     <th>Statut</th>
                     <th>Centre id</th>
+                    <th>Transfusion</th>
+                    <th>Actions</th>
                     
                 </tr>
             </thead>
