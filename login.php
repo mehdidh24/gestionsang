@@ -3,6 +3,7 @@ session_start();
 require_once 'config/database.php';
 require_once 'models/User.php';
 
+
 $error = '';
 
 if($_POST && !empty($_POST['nom']) && !empty($_POST['mot_de_passe'])) {
@@ -15,7 +16,7 @@ if($_POST && !empty($_POST['nom']) && !empty($_POST['mot_de_passe'])) {
 
     if($user->login()) {
         // Création de la session avec toutes les données nécessaires
-        $_SESSION['user_id'] = $user->id_utilisateur;
+        $_SESSION['user_id'] = $user->id;
         $_SESSION['nom'] = $user->nom;
         $_SESSION['role'] = $user->role;
         $_SESSION['logged_in'] = true;

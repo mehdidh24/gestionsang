@@ -111,8 +111,8 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
                         <label class="form-label">Statut</label>
                         <select name="statut" class="form-control" required>
                             <option value="en stock">En stock</option>
-                            <option value="utilisé">Utilisé</option>
-                            <option value="expiré">Expiré</option>
+                            
+                            
                         </select>
                     </div>
                     <div class="mb-3">

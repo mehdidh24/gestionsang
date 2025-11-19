@@ -99,6 +99,11 @@ session_start();
 
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="test_dons.php" class="nav-link">
+                        <i class="fas fa-vial me-1"></i>Tests des Dons
+                    </a>
+                </li>
             </ul>
 
 

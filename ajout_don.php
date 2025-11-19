@@ -16,6 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Requête préparée
     $stmt = $db->prepare("INSERT INTO dons (id_donneur, statut,id_centre) VALUES (?, ?, ?)");
     $stmt->execute([$id_donneur, $statut,$id_centre]);
+
+    $insert = $db->prepare("
+    INSERT INTO transfusions (id_don, id_donneur, date_transfusion)
+    VALUES (?, ?, NOW())");
+
+    
+
 }
 
 // Retour vers la liste

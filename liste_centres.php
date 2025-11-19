@@ -21,24 +21,55 @@ $centres = $stmt->fetchAll();
     
     <div class="container mt-4">
         <h3>Centres de Collecte</h3>
+        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addcentre">+ Nouveau</button>
         
-        <?php if (empty($centres)): ?>
-            <div class="alert alert-info">Aucun centre trouvé</div>
-        <?php else: ?>
+        <table class="table table-striped mt-3">
+
+            <?php if (empty($centres)): ?>
+            <div class="alert alert-info mt-3">Aucun centre trouvé.</div>
+            
+        
+            <?php else: ?>
             <div class="row">
+            <table class="table table-striped">
+            <tr><th>ID</th><th>CIN</th><th>Groupe</th><th>Rhésus</th></tr>
+                
                 <?php foreach ($centres as $centre): ?>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
+                    <tr>
+                        <td></td>
+                    </tr>
                             
-                            <p><?= htmlspecialchars($centre['id_centre']) ?></p>
-                            
+                        <td><?= htmlspecialchars($centre['id_centre']) ?></td>
+                        
+                        
+                <?php endforeach; ?>
+
+            </div>
+            
+        <?php endif; ?>
+        </table>
+    </div>
+    <div class="modal fade" id="addcentre">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter Centre de Collecte</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" action="ajout_centre.php">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">ID Centre</label>
+                            <input type="text" name="id_centre" class="form-control" required>
                         </div>
                     </div>
-                </div>
-                <?php endforeach; ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
             </div>
-        <?php endif; ?>
+        </div>
     </div>
     <?php include 'includes/footer.php'; ?>
 </body>
