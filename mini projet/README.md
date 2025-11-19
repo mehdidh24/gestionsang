@@ -1,2 +1,0 @@
-# gestionsang
-mini projet php

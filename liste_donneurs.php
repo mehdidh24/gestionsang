@@ -37,33 +37,45 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
     <div class="modal fade" id="addDonneur">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Ajouter Donneur</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter Donneur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" action="ajout_donneur.php">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">CIN</label>
+                            <input type="text" name="cin" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Groupe Sanguin</label>
+                            <select name="groupe_sanguin" class="form-control" required>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>  
+                        <div class="mb-3">
+                            <label class="form-label">Rhésus</label>
+                            <select name="rhesus" class="form-control" required>
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                            </select>
+                        </div>     
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </form>
             </div>
-            <form method="post" action="ajout_donneur.php">
-                <div class="modal-body">
-                    <input type="number" name="cin" class="form-control mb-2" placeholder="CIN" required>
-                    <select name="groupe_sanguin" class="form-select mb-2" required>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="AB">AB</option>
-                        <option value="O">O</option>
-                    </select>
-                    <select name="rhesus" class="form-select" required>
-                        <option value="+">Rh+</option>
-                        <option value="-">Rh-</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Ajouter</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+    
+
 
     <?php include 'includes/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>    

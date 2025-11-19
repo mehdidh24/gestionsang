@@ -4,7 +4,7 @@ require_once 'config/database.php';
 checkAuth();
 
 $db = (new Database())->connect();
-$stmt = $db->prepare("SELECT id_centres FROM centres_collecte ORDER BY id_centres");
+$stmt = $db->prepare("SELECT id_centre FROM centres_collecte ORDER BY id_centre");
 $stmt->execute();
 $centres = $stmt->fetchAll();
 ?>
@@ -31,7 +31,7 @@ $centres = $stmt->fetchAll();
                     <div class="card">
                         <div class="card-body">
                             
-                            <p><?= htmlspecialchars($centre['id_centres']) ?></p>
+                            <p><?= htmlspecialchars($centre['id_centre']) ?></p>
                             
                         </div>
                     </div>
