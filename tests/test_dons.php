@@ -22,7 +22,7 @@ $dons = $stmt->fetchAll();
     <title>Validation des Tests</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class="p-4">
+<body>
 <?php include '../includes/header.php'; ?>
 <div>
 <h2>Dons en Attente de Validation</h2>
@@ -32,7 +32,7 @@ $dons = $stmt->fetchAll();
         <tr>
             <th>ID Don</th>
             <th>Donneur</th>
-            <th>Date</th>
+            <th>Action</th>
             
         </tr>
     </thead>
@@ -43,7 +43,7 @@ $dons = $stmt->fetchAll();
             <td><?= $don['id_donneur']?></td>
             
             <td>
-                <a href="valider_test.php?id_don=<?= $don['id_don'] ?>" class="btn btn-primary btn-sm">
+                <a href="../tests/valider_test.php?id_don=<?= $don['id_don'] ?>" class="btn btn-primary btn-sm">
                     Valider
                 </a>
             </td>
@@ -52,7 +52,7 @@ $dons = $stmt->fetchAll();
     </tbody>
 </table>
 </div>
-<a href="dons/liste_dons.php" class="btn btn-secondary mt-3">Retour à la Liste des Dons</a>
+<a href="../dons/liste_dons.php" class="btn">Retour à la Liste des Dons</a>
 <?php include '../includes/footer.php'; ?>
 </body>
 </html>

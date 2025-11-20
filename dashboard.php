@@ -45,30 +45,30 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="row mt-4">
   <div class="col-md-4 mb-3">
-    <a href="donneurs/liste_donneurs.php" class="card-link">
+    <div  class="card-link">
       <div class="card-box bg-blue">
         <div class="big-number"><?= $donneurs ?></div>
         <div>Donneurs</div>
       </div>
-    </a>
+    </div>
   </div>
   
   <div class="col-md-4 mb-3">
-    <a href="dons/liste_dons.php" class="card-link">
+    <div  class="card-link">
       <div class="card-box bg-green">
         <div class="big-number"><?= $dons ?></div>
         <div>Dons valides</div>
       </div>
-    </a>
+    </div>
   </div>
   
   <div class="col-md-4 mb-3">
-    <a href="centres/liste_centres.php" class="card-link">
+    <div class="card-link">
       <div class="card-box bg-cyan">
         <div class="big-number"><?= $centres ?></div>
         <div>Centres</div>
       </div>
-    </a>
+    </div>
   </div>
 </div>
 </div>

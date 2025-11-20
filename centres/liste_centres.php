@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/auth.php';
-require_once 'config/database.php';
+require_once '../includes/auth.php';
+require_once '../config/database.php';
 checkAuth();
 
 $db = (new Database())->connect();
@@ -17,7 +17,7 @@ $centres = $stmt->fetchAll();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
     
     <div class="container mt-4">
         <h3>Centres de Collecte</h3>
@@ -63,6 +63,11 @@ $centres = $stmt->fetchAll();
                             <input type="text" name="id_centre" class="form-control" required>
                         </div>
                     </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">ID donneur</label>
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         <button type="submit" class="btn btn-primary">Ajouter</button>
@@ -71,6 +76,6 @@ $centres = $stmt->fetchAll();
             </div>
         </div>
     </div>
-    <?php include 'includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

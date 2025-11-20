@@ -20,6 +20,6 @@ $stmt = $db->prepare("DELETE FROM besoins WHERE id_besoin = ?");
 $stmt->execute([$id_besoin]);
 
 // Redirection vers la liste
-header('Location: besoins/liste_besoins.php');
+header('Location: liste_besoins.php');
 exit;
 ?>

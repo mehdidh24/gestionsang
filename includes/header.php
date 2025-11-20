@@ -38,6 +38,7 @@ session_start();
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
+        
         <a class="navbar-brand" href="../dashboard.php">
             <i class="fas fa-tint me-2"></i>Gestion Don de Sang
         </a>
@@ -55,6 +56,10 @@ session_start();
                         <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../utilisateurs.php">
+                        <i class="fas fa-user-cog me-1"></i>Utilisateurs
+                    </a>
                 <?php if(isset($_SESSION['role']) && in_array($_SESSION['role'], ['SECRETAIRE', 'ADMIN'])): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="../donneurs/liste_donneurs.php">
@@ -102,6 +107,21 @@ session_start();
                 <li class="nav-item">
                     <a href="../tests/test_dons.php" class="nav-link">
                         <i class="fas fa-vial me-1"></i>Tests des Dons
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../donneurs/liste_donneurs.php" class="nav-link">
+                        <i class="fas fa-file-alt me-1"></i>Donneurs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../dons/liste_dons.php" class="nav-link">
+                        <i class="fas fa-tint me-1"></i>Dons
+                    </a>
+                </li>
+                <li >
+                    <a href="../centres/liste_centres.php" class="nav-link">
+                        <i class="fas fa-hospital me-1"></i>Centres
                     </a>
                 </li>
             </ul>

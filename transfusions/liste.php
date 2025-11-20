@@ -49,6 +49,8 @@ $dons = $db->query("SELECT * FROM dons ORDER BY id_don DESC")->fetchAll();
                     <th>Rhesus</th>
                     <th>Date Transfusion</th>
                     <th>Hôpital Receveur</th>
+                    <th>Actions</th>
+
                 </tr>
             </thead>
             
@@ -61,6 +63,13 @@ $dons = $db->query("SELECT * FROM dons ORDER BY id_don DESC")->fetchAll();
                     <td><?= $t['rhesus'] ?></td>
                     <td><?= $t['date_transfusion'] ?></td>
                     <td><?= $t['hopital_recepteur'] ?></td>
+                    <td>
+                        <a href="supprimer_transfusion.php?id=<?= $t['id_transfusion'] ?>" 
+                        class="btn btn-danger btn-sm"
+                        onclick="return confirm('Supprimer cette transfusion ?');">
+                        Supprimer
+                        </a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
@@ -77,7 +86,7 @@ $dons = $db->query("SELECT * FROM dons ORDER BY id_don DESC")->fetchAll();
                 <h5 class="modal-title">Ajouter Transfusion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="post"">
+            <form method="post" action="ajout_transfusion.php">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">ID Don</label>

@@ -1,11 +1,36 @@
-<footer class="bg-dark text-light text-center py-3 fixed-bottom">
+<footer class="footer mt-auto py-3 bg-dark text-white">
     <div class="container">
         <small>
             <i class="fas fa-tint me-1"></i>
-            Gestion Sang &copy; <?php echo date('Y'); ?> 
+            Gestion Sang &copy; <?php echo date('Y'); ?>
             - 
-            <i class="fas fa-user me-1 ms-2"></i>
             <?php echo htmlspecialchars($_SESSION['nom']); ?>
         </small>
     </div>
 </footer>
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Layout vertical pour pousser le footer en bas */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Le contenu prend la place restante */
+main {
+    flex: 1;
+}
+
+/* Style du footer */
+.footer {
+    background-color: #212529;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: auto; /* colle le footer en bas */
+}
+</style>

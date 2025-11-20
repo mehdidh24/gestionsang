@@ -10,7 +10,7 @@ checkRole(['SECRETAIRE', 'ADMIN', 'Médecin']);
 $database = new Database();
 $db = $database->connect();
 
-// ⚠️ SI LE FORMULAIRE EST SOUMIS → MISE À JOUR
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id     = $_POST['id_besoin'];
@@ -28,11 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     // Redirection vers la liste
-    header("Location: liste_besoins.php?update=success");
+    header("Location:besoins/liste_besoins.php?update=success");
     exit;
 }
 
-// ⚠️ SINON → AFFICHER LE FORMULAIRE DE MODIFICATION
 if (!isset($_GET['id'])) {
     die("ID manquant");
 }
@@ -67,7 +66,7 @@ if (!$besoin) {
 
         <div class="card-body">
 
-            <form method="POST" action="modifier_besoins.php">
+            <form method="POST" action="./besoins/modifier_besoins.php">
 
                 <input type="hidden" name="id_besoin" value="<?= $besoin['id_besoin'] ?>">
 
@@ -95,12 +94,12 @@ if (!$besoin) {
                     Enregistrer les modifications
                 </button>
 
-                <a href="besoins/liste_besoins.php" class="btn btn-secondary mt-3">
+                <a href="liste_besoins.php" class="btn btn-secondary mt-3">
                     Annuler
                 </a>
 
                 <!-- Lien vers "nouveau besoin" -->
-                <a href="besoins/liste_besoins.php#ajoutBesoin" class="btn btn-success mt-3">
+                <a href="liste_besoins.php#ajoutBesoin" class="btn btn-success mt-3">
                     + Nouveau Besoin
                 </a>
 

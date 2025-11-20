@@ -19,6 +19,6 @@ $db = $database->connect();
 $stmt = $db->prepare("DELETE FROM donneurs WHERE id_donneur = ?");
 $stmt->execute([$id_donneur]);
 
-header("Location: donneurs/liste_donneurs.php");
+header("Location: liste_donneurs.php");
 exit();
 ?>

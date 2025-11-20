@@ -124,10 +124,10 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><span class="badge bg-<?= $badge ?>"><?= strtoupper($b['niveau_alerte']) ?></span></td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="besoins/modifier_besoins.php?id=<?= $b['id_besoin'] ?>&groupe=<?= $b['groupe_sanguin'] ?>&niveau=<?= $b['niveau_alerte'] ?>" class="btn btn-outline-warning" onclick="return confirm('Modifier ?')" >
+                                        <a href="modifier_besoins.php?id=<?= $b['id_besoin'] ?>&groupe=<?= $b['groupe_sanguin'] ?>&niveau=<?= $b['niveau_alerte'] ?>" class="btn btn-outline-warning" onclick="return confirm('Modifier ?')" >
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="besoins/supprimer_besoins.php?id=<?= $b['id_besoin'] ?>" 
+                                        <a href="supprimer_besoins.php?id=<?= $b['id_besoin'] ?>" 
                                            class="btn btn-outline-danger"
                                            onclick="return confirm('Supprimer ?')">
                                             <i class="fas fa-trash"></i>
