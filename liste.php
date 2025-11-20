@@ -6,26 +6,19 @@ checkRole(['ADMIN','Médecin']);
 
 $db = (new Database())->connect();
 
-$where = "";
-$params = [];
-
-// Filtrer si ?id_don=XX est présent
-if (!empty($_GET['id_don'])) {
-    $where = " AND t.id_don = :id_don ";
-    $params[':id_don'] = intval($_GET['id_don']);
-}
-
+$parms = [];
 // Requête préparée
 $stmt = $db->prepare("
-    SELECT t.id_transfusion, t.id_don, d.cin, d.groupe_sanguin, d.rhesus, t.date_transfusion, t.hopital_recepteur,don.statut
-    FROM transfusions t
-    JOIN dons don ON t.id_don = don.id_don
-    JOIN donneurs d ON don.id_donneur = d.id_donneur
-    WHERE don.statut='utilisé' $where
-    ORDER BY t.date_transfusion DESC
+    SELECT t.id_transfusion, t.id_don,t.date_transfusion, t.hopital_recepteur
+    FROM transfusions t ORDER BY t.date_transfusion DESC
 ");
-$stmt->execute($params);
+$stmt->execute($parms);
 $transfusions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$donneurs = $db->query("SELECT id_donneur FROM donneurs ORDER BY
+id_donneur")->fetchAll();
+$dons = $db->query("SELECT * FROM dons ORDER BY id_don DESC")->fetchAll();
+
 
 ?>
 <!DOCTYPE html>
@@ -88,7 +81,15 @@ $transfusions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">ID Don</label>
-                        <input type="number" name="id_don" class="form-control" required>
+                        <select name="id_don" class="form-control" required>
+                            <option value="">-- Choisir --</option>
+                            <?php foreach ($dons as $d): ?>
+                                <option value="<?= $d['id_don'] ?>">
+                                    <?= $d['id_don'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                       
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Date Transfusion</label>

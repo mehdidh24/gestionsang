@@ -13,8 +13,10 @@ $stmt->execute();
 $dons = $stmt->fetchAll();
 
 
-$donneurs = $db->query("SELECT id_donneur FROM donneurs ORDER BY id_donneur
-")->fetchAll();
+
+// LISTE DES DONNEURS POUR LE MODAL
+$donneurs = $db->query("SELECT id_donneur FROM donneurs ORDER BY
+id_donneur")->fetchAll();
 $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre")->fetchAll();
 ?>
 <!DOCTYPE html>

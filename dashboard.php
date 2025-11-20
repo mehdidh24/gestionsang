@@ -5,7 +5,9 @@ require_once 'config/database.php';
 // Vérifier l'authentification
 checkAuth();
 
-$db = (new Database())->connect();
+// Connexion à la base de données
+$database = new Database();
+$db = $database->connect();
 
 
 // Récupérer les statistiques
