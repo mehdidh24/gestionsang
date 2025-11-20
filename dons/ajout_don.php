@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/auth.php';
-require_once 'config/database.php';
+require_once '../includes/auth.php';
+require_once '../config/database.php';
 
 checkAuth();
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Retour vers la liste
-header("Location: liste_dons.php");
+header("Location: dons/liste_dons.php");
 exit();
 
 

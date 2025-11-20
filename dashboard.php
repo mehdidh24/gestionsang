@@ -40,14 +40,12 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <?php include 'includes/header.php'; ?>
     <h2>Tableau de Bord <small class="text-muted">Bienvenue, <?= htmlspecialchars($_SESSION['nom']) ?></small></h2>
-    <div class="mt-3 mb-4">
     
+<div class="mt-3 mb-4">
 
-    
-    </div>
 <div class="row mt-4">
   <div class="col-md-4 mb-3">
-    <a href="liste_donneurs.php" class="card-link">
+    <a href="donneurs/liste_donneurs.php" class="card-link">
       <div class="card-box bg-blue">
         <div class="big-number"><?= $donneurs ?></div>
         <div>Donneurs</div>
@@ -56,7 +54,7 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
   
   <div class="col-md-4 mb-3">
-    <a href="liste_dons.php" class="card-link">
+    <a href="dons/liste_dons.php" class="card-link">
       <div class="card-box bg-green">
         <div class="big-number"><?= $dons ?></div>
         <div>Dons valides</div>
@@ -65,7 +63,7 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
   
   <div class="col-md-4 mb-3">
-    <a href="liste_centres.php" class="card-link">
+    <a href="centres/liste_centres.php" class="card-link">
       <div class="card-box bg-cyan">
         <div class="big-number"><?= $centres ?></div>
         <div>Centres</div>
@@ -73,6 +71,8 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </a>
   </div>
 </div>
+</div>
+
 
 <div class="card mt-4">
   <div class="card-header">Alertes</div>
@@ -91,8 +91,8 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 </div>
 </div>
-    
-    <?php include 'includes/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<?php include 'includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

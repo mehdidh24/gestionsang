@@ -16,6 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$cin, $groupe_sanguin, $rhesus]);
 }
 
-header("Location: liste_donneurs.php");
+header("Location: donneurs/liste_donneurs.php");
 exit();
 ?>

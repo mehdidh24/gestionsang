@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/auth.php';
-require_once 'config/database.php';
+require_once '../includes/auth.php';
+require_once '../config/database.php';
 checkAuth();
 checkRole(['Médecin', 'ADMIN']);
 
@@ -23,7 +23,7 @@ $dons = $stmt->fetchAll();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="p-4">
-<?php include 'includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 <div>
 <h2>Dons en Attente de Validation</h2>
 
@@ -52,7 +52,7 @@ $dons = $stmt->fetchAll();
     </tbody>
 </table>
 </div>
-<a href="liste_dons.php" class="btn btn-secondary mt-3">Retour à la Liste des Dons</a>
-<?php include 'includes/footer.php'; ?>
+<a href="dons/liste_dons.php" class="btn btn-secondary mt-3">Retour à la Liste des Dons</a>
+<?php include '../includes/footer.php'; ?>
 </body>
 </html>

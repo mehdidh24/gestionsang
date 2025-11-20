@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/auth.php';
-require_once 'config/database.php';
+require_once '../includes/auth.php';
+require_once '../config/database.php';
 checkAuth();
 
 $db = (new Database())->connect();
@@ -28,7 +28,7 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
 </head>
 <body>
 
-<?php include 'includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 
 <div class="container mt-4">
     <h3>Liste des Dons</h3>
@@ -59,7 +59,7 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
                     <td><?= $don['id_centre']?></td>
                     <td>
                         <?php if ($don['statut'] === 'utilisé'): ?>
-                            <a href="liste.php?id_don=<?= $don['id_don'] ?>" 
+                            <a href="transfusions/liste.php?id_don=<?= $don['id_don'] ?>" 
                             class="btn btn-sm btn-primary">
                             Voir transfusion
                             </a>
@@ -94,7 +94,7 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form method="post" action="ajout_don.php">
+            <form method="post" action="dons/ajout_don.php">
                 <div class="modal-body">
 
                     <div class="mb-3">
@@ -141,7 +141,7 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

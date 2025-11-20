@@ -1,6 +1,6 @@
 <?php
-require_once 'config/database.php';
-require_once 'includes/auth.php';
+require_once '../config/database.php';
+require_once '../includes/auth.php';
 
 // Vérification auth & rôle
 checkAuth();
@@ -44,7 +44,7 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
 
-<?php include 'includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -124,10 +124,10 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><span class="badge bg-<?= $badge ?>"><?= strtoupper($b['niveau_alerte']) ?></span></td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="modifier_besoins.php?id=<?= $b['id_besoin'] ?>&groupe=<?= $b['groupe_sanguin'] ?>&niveau=<?= $b['niveau_alerte'] ?>" class="btn btn-outline-warning" onclick="return confirm('Modifier ?')" >
+                                        <a href="besoins/modifier_besoins.php?id=<?= $b['id_besoin'] ?>&groupe=<?= $b['groupe_sanguin'] ?>&niveau=<?= $b['niveau_alerte'] ?>" class="btn btn-outline-warning" onclick="return confirm('Modifier ?')" >
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="supprimer_besoins.php?id=<?= $b['id_besoin'] ?>" 
+                                        <a href="besoins/supprimer_besoins.php?id=<?= $b['id_besoin'] ?>" 
                                            class="btn btn-outline-danger"
                                            onclick="return confirm('Supprimer ?')">
                                             <i class="fas fa-trash"></i>
@@ -178,7 +178,7 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

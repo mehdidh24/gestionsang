@@ -1,6 +1,6 @@
 <?php
-require_once "config/database.php";
-require_once "includes/auth.php";
+require_once "../config/database.php";
+require_once "../includes/auth.php";
 
 session_start();
 checkAuth();
@@ -25,9 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bindParam(":hopital", $hopital);
 
     if ($stmt->execute()) {
-        header("Location: liste.php?success=1");
+        header("Location: transfusions/liste.php?success=1");
     } else {
-        header("Location: liste.php?error=1");
+        header("Location: transfusions/liste.php?error=1");
     }
     exit;
 }

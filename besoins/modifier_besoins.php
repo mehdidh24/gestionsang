@@ -95,12 +95,12 @@ if (!$besoin) {
                     Enregistrer les modifications
                 </button>
 
-                <a href="liste_besoins.php" class="btn btn-secondary mt-3">
+                <a href="besoins/liste_besoins.php" class="btn btn-secondary mt-3">
                     Annuler
                 </a>
 
                 <!-- Lien vers "nouveau besoin" -->
-                <a href="liste_besoins.php#ajoutBesoin" class="btn btn-success mt-3">
+                <a href="besoins/liste_besoins.php#ajoutBesoin" class="btn btn-success mt-3">
                     + Nouveau Besoin
                 </a>
 

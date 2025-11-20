@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/auth.php';
-require_once 'config/database.php';
+require_once '../includes/auth.php';
+require_once '../config/database.php';
 checkAuth();
 checkRole(['ADMIN','Médecin']); 
 
@@ -30,7 +30,7 @@ $dons = $db->query("SELECT * FROM dons ORDER BY id_don DESC")->fetchAll();
 </head>
 <body>
 
-<?php include 'includes/header.php'; ?>
+<?php include '../includes/header.php'; ?>
 
 <div class="container mt-4">
     <h3>Liste des Transfusions</h3>
@@ -110,6 +110,6 @@ $dons = $db->query("SELECT * FROM dons ORDER BY id_don DESC")->fetchAll();
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
 </body>
 </html>

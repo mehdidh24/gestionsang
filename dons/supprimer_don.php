@@ -1,11 +1,11 @@
 <?php
-require_once 'includes/auth.php';
-require_once 'config/database.php';
+require_once '../includes/auth.php';
+require_once '../config/database.php';
 checkAuth();
 
 // Vérifier si l'ID est bien présent
 if (!isset($_GET['id_don']) || !is_numeric($_GET['id_don'])) {
-    header("Location: liste_dons.php");
+    header("Location: dons/liste_dons.php");
     exit();
 }
 
@@ -19,6 +19,6 @@ $db = $database->connect();
 $stmt = $db->prepare("DELETE FROM dons WHERE id_don = ?");
 $stmt->execute([$id_don]);
 
-header("Location: liste_dons.php");
+header("Location: dons/liste_dons.php");
 exit();
 ?>
