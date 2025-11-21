@@ -1,6 +1,6 @@
 <?php
 require_once 'includes/auth.php';
-checkRole(['ADMIN','Médecin']); // Seul ADMIN peut supprimer
+checkRole(['ADMIN','Médecin']);
 require_once 'config/database.php';
 
 if (!isset($_GET['id'])) {

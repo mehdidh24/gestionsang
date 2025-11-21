@@ -1,6 +1,6 @@
 <?php
 require_once 'includes/auth.php';
-checkRole(['ADMIN','Médecin']); // Seul ADMIN et Médecin peuvent modifier
+checkRole(['ADMIN']);
 require_once 'config/database.php';
 
 if (!isset($_GET['id'])) {
@@ -11,7 +11,6 @@ if (!isset($_GET['id'])) {
 $id = intval($_GET['id']);
 $db = (new Database())->connect();
 
-// Récupérer les infos actuelles
 $stmt = $db->prepare("SELECT nom,role FROM utilisateurs WHERE id_utilisateur = ?");
 $stmt->execute([$id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -20,7 +19,6 @@ if (!$user) {
     die("Utilisateur non trouvé !");
 }
 
-// Traitement du formulaire
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nom = $_POST['nom'];
     
@@ -28,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql = "UPDATE utilisateurs SET nom = ?, email = ?, role = ?";
 
-    // Si le mot de passe est renseigné, le hacher
     if (!empty($_POST['password'])) {
         $sql .= ", mot_de_passe = ?";
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);

@@ -9,33 +9,25 @@ $db = (new Database())->connect();
 $where = "WHERE 1 ";
 $params = [];
 
-// Filtre groupe sanguin
 if (!empty($_GET['groupe_sanguin'])) {
     $where .= " AND groupe_sanguin = ? ";
     $params[] = $_GET['groupe_sanguin'];
 }
 
-// Filtre ville
 if (!empty($_GET['ville'])) {
     $where .= " AND ville LIKE ? ";
     $params[] = "%".$_GET['ville']."%";
 }
 
-/* ============================
-        PAGINATION
-============================= */
-
-$limit = 5; // Nombre de donneurs par page
+$limit = 5;
 $page  = isset($_GET['page']) ? intval($_GET['page']) : 1;
 $offset = ($page - 1) * $limit;
 
-// Total pour pagination
 $stmtCount = $db->prepare("SELECT COUNT(*) FROM donneurs $where");
 $stmtCount->execute($params);
 $total = $stmtCount->fetchColumn();
 $totalPages = ceil($total / $limit);
 
-// Liste paginée
 $sql = "SELECT * FROM donneurs $where ORDER BY id_donneur DESC LIMIT $limit OFFSET $offset";
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
@@ -55,7 +47,6 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-4">
     <h3>Liste des Donneurs</h3>
 
-    <!-- FILTRES -->
     <form method="GET" class="row g-3 mt-3 mb-3">
 
         <div class="col-md-3">
@@ -82,10 +73,8 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </form>
 
-    <!-- BOUTON AJOUTER -->
     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addDonneur">+ Nouveau</button>
 
-    <!-- TABLEAU -->
     <table class="table table-striped mt-3">
         <thead>
             <tr>
@@ -114,7 +103,6 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </table>
 
-    <!-- PAGINATION -->
     <nav>
         <ul class="pagination">
             <?php for($i=1; $i <= $totalPages; $i++): ?>
@@ -130,8 +118,6 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 </div>
 
-
-<!-- MODAL AJOUT -->
 <div class="modal fade" id="addDonneur">
     <div class="modal-dialog">
         <div class="modal-content">

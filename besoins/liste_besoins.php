@@ -2,14 +2,12 @@
 require_once '../config/database.php';
 require_once '../includes/auth.php';
 
-// Vérification auth & rôle
 checkAuth();
 checkRole(['SECRETAIRE', 'ADMIN', 'Médecin']);
 
 $database = new Database();
 $db = $database->connect();
 
-// AJOUT NOUVEAU BESOIN
 if (isset($_POST['ajouter_besoin'])) {
     $groupe_sanguin = $_POST['groupe_sanguin'];
     $niveau_alerte = strtolower($_POST['niveau_alerte']); 
@@ -17,12 +15,10 @@ if (isset($_POST['ajouter_besoin'])) {
     $stmt = $db->prepare("INSERT INTO besoins (groupe_sanguin, niveau_alerte) VALUES (?, ?)");
     $stmt->execute([$groupe_sanguin, $niveau_alerte]);
 
-    // Redirection pour éviter re-submission
     header("Location: ".$_SERVER['PHP_SELF']);
     exit;
 }
 
-// Récupérer tous les besoins
 $stmt = $db->prepare("SELECT * FROM besoins ORDER BY niveau_alerte DESC, groupe_sanguin ASC");
 $stmt->execute();
 $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,7 +50,6 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </button>
     </div>
 
-    <!-- Statistiques -->
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card card-stat bg-danger text-white">
@@ -93,7 +88,6 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- Tableau -->
     <div class="card shadow-sm">
         <div class="card-header bg-light">
             <h5 class="mb-0"><i class="fas fa-list me-2"></i>Liste des Besoins</h5>
@@ -144,7 +138,6 @@ $besoins = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-<!-- Modal Ajout Besoin -->
 <div class="modal fade" id="ajoutBesoinModal">
     <div class="modal-dialog">
         <div class="modal-content">

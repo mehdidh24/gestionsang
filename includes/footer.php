@@ -14,23 +14,20 @@ html, body {
     margin: 0;
 }
 
-/* Layout vertical pour pousser le footer en bas */
 body {
     display: flex;
     flex-direction: column;
 }
 
-/* Le contenu prend la place restante */
 main {
     flex: 1;
 }
 
-/* Style du footer */
 .footer {
     background-color: #212529;
     color: white;
     text-align: center;
     padding: 15px 0;
-    margin-top: auto; /* colle le footer en bas */
+    margin-top: auto; 
 }
 </style>

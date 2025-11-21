@@ -2,15 +2,11 @@
 require_once 'includes/auth.php';
 require_once 'config/database.php';
 
-// Vérifier l'authentification
 checkAuth();
 
-// Connexion à la base de données
 $database = new Database();
 $db = $database->connect();
 
-
-// Récupérer les statistiques
 $stmt = $db->prepare("SELECT COUNT(*) FROM donneurs");
 $stmt->execute();
 $donneurs = $stmt->fetchColumn();
@@ -22,7 +18,7 @@ $dons = $stmt->fetchColumn();
 $stmt = $db->prepare("SELECT COUNT(*) FROM centres_collecte");
 $stmt->execute();
 $centres = $stmt->fetchColumn();
-// Alertes de stock
+
 $query_alertes = "SELECT groupe_sanguin, niveau_alerte FROM besoins WHERE niveau_alerte IN ('URGENT', 'CRITIQUE')";
 $stmt = $db->prepare($query_alertes);
 $stmt->execute();

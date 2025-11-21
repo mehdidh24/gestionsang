@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = htmlspecialchars(trim($_POST['nom']));
         $password = $_POST['mot_de_passe'];
 
-        // Requête pour chercher l'utilisateur
         $stmt = $db->prepare("SELECT id_utilisateur, nom, mot_de_passe, role 
                               FROM utilisateurs 
                               WHERE nom = :nom
@@ -23,10 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            // Vérification du mot de passe hashé
             if (password_verify($password, $user['mot_de_passe'])) {
 
-                // Création session
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['nom'] = $user['nom'];
                 $_SESSION['role'] = $user['role'];

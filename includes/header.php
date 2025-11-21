@@ -49,7 +49,6 @@ session_start();
         </button>
 
         <div class="collapse navbar-collapse" id="menu">
-            <!-- Navigation principale -->
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="../dashboard.php">
@@ -126,8 +125,6 @@ session_start();
                 </li>
             </ul>
 
-
-            <!-- Zone utilisateur -->
             <span class="navbar-text text-white">
                 <i class="fas fa-user me-1"></i>
                 <?= htmlspecialchars($_SESSION['nom']) ?>

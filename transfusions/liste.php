@@ -7,7 +7,6 @@ checkRole(['ADMIN','Médecin']);
 $db = (new Database())->connect();
 
 $parms = [];
-// Requête préparée
 $stmt = $db->prepare("
     SELECT t.id_transfusion, t.id_don,t.date_transfusion, t.hopital_recepteur
     FROM transfusions t ORDER BY t.date_transfusion DESC

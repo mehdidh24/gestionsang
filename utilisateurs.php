@@ -1,17 +1,13 @@
 <?php
-// Utiliser les chemins relatifs si le fichier est dans un sous-dossier (ex: 'pages')
 require_once 'includes/auth.php'; 
 require_once 'config/database.php';
 
-// Seuls les ADMIN devraient gérer les utilisateurs
-checkRole(['ADMIN','Médecin','Secrétaire']); 
+checkRole(['ADMIN']); 
 
 $db = (new Database())->connect();
 
-// --- TRAITEMENT DU FORMULAIRE D'AJOUT D'UTILISATEUR ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    // Vérification des champs requis (nom, email, mot_de_passe, role)
     if (isset($_POST['nom'],  $_POST['mot_de_passe'], $_POST['role'])) {
         $nom = $_POST['nom'];
        
@@ -19,15 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password_hash = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT); 
 
         try {
-            // NOTE: Votre table 'utilisateurs' doit avoir les colonnes nom, email, role, password
             $stmt = $db->prepare("
                 INSERT INTO utilisateurs (nom,role,mot_de_passe) VALUES (?, ?, ?, ?)
             ");
-            // J'assume que la colonne pour le mot de passe haché s'appelle 'password' ou 'mot_de_passe'
-            // Si c'est 'mot_de_passe', changez 'password' dans la requête ci-dessus.
             $stmt->execute([$nom, $role, $password_hash]);
 
-            // Redirection pour éviter la resoumission du formulaire
             header("Location: utilisateurs.php"); 
             exit;
 
@@ -70,7 +62,7 @@ $users = $stmt->fetchAll();
                 <tr>
                     <th>ID</th>
                     <th>Nom</th>
-                    <th>mot_de_passe</th>
+                    
                     <th>Rôle</th>
                     <th>Actions</th>
                 </tr>
@@ -80,7 +72,7 @@ $users = $stmt->fetchAll();
                 <tr>
                     <td><?= $user['id_utilisateur'] ?></td>
                     <td><?= htmlspecialchars($user['nom']) ?></td>
-                    <td><?= htmlspecialchars($user['mot_de_passe']) ?></td>
+                    
                     <td><?= htmlspecialchars($user['role']) ?></td>
                     <td>
                         <a href="modifier_user.php?id=<?= $user['id_utilisateur'] ?>" 

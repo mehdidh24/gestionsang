@@ -2,11 +2,9 @@
 require_once 'config/database.php';
 require_once 'includes/auth.php';
 
-// Vérifier authentification + rôle
 checkAuth();
 checkRole(['SECRETAIRE', 'ADMIN', 'Médecin']);
 
-// Connexion BD
 $database = new Database();
 $db = $database->connect();
 
@@ -27,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':id' => $id
     ]);
 
-    // Redirection vers la liste
     header("Location:besoins/liste_besoins.php?update=success");
     exit;
 }
@@ -38,7 +35,6 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-// récupérer les infos du besoin
 $stmt = $db->prepare("SELECT * FROM besoins WHERE id_besoin = ?");
 $stmt->execute([$id]);
 $besoin = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -98,7 +94,6 @@ if (!$besoin) {
                     Annuler
                 </a>
 
-                <!-- Lien vers "nouveau besoin" -->
                 <a href="liste_besoins.php#ajoutBesoin" class="btn btn-success mt-3">
                     + Nouveau Besoin
                 </a>
