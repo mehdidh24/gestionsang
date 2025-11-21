@@ -4,7 +4,7 @@ require_once '../config/database.php';
 checkAuth();
 
 if (!isset($_GET['id_donneur']) || !is_numeric($_GET['id_donneur'])) {
-    header("Location: donneurs/liste_donneurs.php");
+    header("Location: liste_donneurs.php");
     exit();
 }
 

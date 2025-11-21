@@ -1,33 +1,22 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-
 checkAuth();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $db = (new Database())->connect();
-
-    $id_donneur = $_POST['id_donneur'];
+    $database = new Database();
+    $db = $database->connect();
+    
     $statut = $_POST['statut'];
     $id_centre = $_POST['id_centre'];
 
-    $stmt = $db->prepare("INSERT INTO dons (id_donneur, statut,id_centre) VALUES (?, ?, ?)");
-    $stmt->execute([$id_donneur, $statut,$id_centre]);
-
-    $insert = $db->prepare("
-    INSERT INTO transfusions (id_don, id_donneur, date_transfusion)
-    VALUES (?, ?, NOW())");
-
     
+    $stmt = $db->prepare("INSERT INTO dons (statut, id_centre) VALUES (?, ?)");
+    $stmt->execute([$statut, $id_centre]);
 
+       
 }
+header("Location: liste_dons.php?msg=Don ajouté avec succès");
+exit(); 
 
-header("Location: dons/liste_dons.php");
-exit();
-
-
-
-
-
-
+?>

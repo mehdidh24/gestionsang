@@ -4,7 +4,7 @@ require_once '../config/database.php';
 checkAuth();
 
 if (!isset($_GET['id_don']) || !is_numeric($_GET['id_don'])) {
-    header("Location: dons/liste_dons.php");
+    header("Location: liste_dons.php");
     exit();
 }
 
@@ -16,6 +16,6 @@ $db = $database->connect();
 $stmt = $db->prepare("DELETE FROM dons WHERE id_don = ?");
 $stmt->execute([$id_don]);
 
-header("Location: dons/liste_dons.php");
+header("Location: liste_dons.php");
 exit();
 ?>

@@ -2,18 +2,17 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
-
+checkRole(['Admin']); // Seulement ADMIN
 $db = (new Database())->connect();
 
 $stmt = $db->prepare("
-    SELECT id_don, id_donneur, statut,id_centre FROM dons ORDER BY id_don DESC
+    SELECT id_don,statut,id_donneur,id_centre FROM dons ORDER BY id_don DESC
 ");
 $stmt->execute();
-$dons = $stmt->fetchAll();
+$dons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$donneurs = $db->query("SELECT id_donneur FROM donneurs ORDER BY
-id_donneur")->fetchAll();
-$centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre")->fetchAll();
+$donneurs = $db->query("SELECT id_donneur FROM donneurs ORDER BY id_donneur")->fetchAll( PDO::FETCH_ASSOC);
+$centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre")->fetchAll( PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,7 +54,7 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
                     <td><?= $don['id_centre']?></td>
                     <td>
                         <?php if ($don['statut'] === 'utilisé'): ?>
-                            <a href="transfusions/liste.php?id_don=<?= $don['id_don'] ?>" 
+                            <a href="../transfusions/liste.php?id_don=<?= $don['id_don'] ?>" 
                             class="btn btn-sm btn-primary">
                             Voir transfusion
                             </a>
@@ -81,58 +80,61 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
 
 <div class="modal fade" id="addDon">
     <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Ajouter un Don</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <div class="modal-header">
+            <h5 class="modal-title">Ajouter un Don</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form method="post" action="ajout_don.php">
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Donneur</label>
+                    <select name="id_donneur" class="form-select" required>
+                        <option value="">-- Sélectionner un donneur --</option>
+                        <?php foreach ($donneurs as $d): ?>
+                            <option value ="<?= $d['id_donneur'] ?>">
+                                <?= $d['id_donneur'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Statut</label>
+                    <select name="statut" class="form-select" required>
+                        <option value="">-- Sélectionner le statut --</option>
+                        <?php foreach (['en stock', 'utilisé', 'expiré', 'rejeté', 'valide'] as $status): ?>
+                            <option value="<?= $status ?>"><?= ucfirst($status) ?></option> 
+                        <?php endforeach; ?>                       
+                        
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Centre</label>
+                    <select name="id_centre" class="form-select" required>
+                        <option value="">-- Sélectionner un centre --</option>
+                        <?php foreach ($centres as $c): ?>
+                            <option value="<?= $c['id_centre'] ?>">
+                                <?= $c['id_centre'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
             </div>
 
-            <form method="post" action="dons/ajout_don.php">
-                <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label class="form-label">ID Donneur</label>
-                        <select name="id_donneur" class="form-control" required>
-                            <option value="">-- Choisir --</option>
-                            <?php foreach ($donneurs as $d): ?>
-                                <option value="<?= $d['id_donneur'] ?>">
-                                    <?= $d['id_donneur'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Statut</label>
-                        <select name="statut" class="form-control" required>
-                            <option value="en stock">En stock</option>
-                            
-                            
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Centre</label>
-                        <select name="id_centre" class="form-control" required>
-                            <option value="">-- Choisir Centre --</option>
-                            <?php foreach ($centres as $c): ?>
-                                <option value="<?= $c['id_centre'] ?>">
-                                    <?= $c['id_centre'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </form>
-
-        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+        </form>
     </div>
+    </div>
+    
 </div>
 
 <?php include '../includes/footer.php'; ?>

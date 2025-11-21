@@ -1,6 +1,6 @@
 <?php
-require_once 'config/database.php';
-require_once 'includes/auth.php';
+require_once '../config/database.php';
+require_once '../includes/auth.php';
 
 checkAuth();
 checkRole(['SECRETAIRE', 'ADMIN', 'Médecin']);
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':id' => $id
     ]);
 
-    header("Location:besoins/liste_besoins.php?update=success");
+    header("liste_besoins.php?update=success");
     exit;
 }
 
@@ -62,7 +62,7 @@ if (!$besoin) {
 
         <div class="card-body">
 
-            <form method="POST" action="./besoins/modifier_besoins.php">
+            <form method="POST" action="modifier_besoins.php">
 
                 <input type="hidden" name="id_besoin" value="<?= $besoin['id_besoin'] ?>">
 

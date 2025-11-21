@@ -103,18 +103,7 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach; ?>
     </table>
 
-    <nav>
-        <ul class="pagination">
-            <?php for($i=1; $i <= $totalPages; $i++): ?>
-                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                    <a class="page-link"
-                       href="?page=<?= $i ?>&groupe_sanguin=<?= $_GET['groupe_sanguin'] ?? '' ?>&ville=<?= $_GET['ville'] ?? '' ?>">
-                        <?= $i ?>
-                    </a>
-                </li>
-            <?php endfor; ?>
-        </ul>
-    </nav>
+    
 
 </div>
 

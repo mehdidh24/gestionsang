@@ -2,7 +2,7 @@
 require_once 'includes/auth.php'; 
 require_once 'config/database.php';
 
-checkRole(['ADMIN']); 
+checkRole(['Admin']);
 
 $db = (new Database())->connect();
 

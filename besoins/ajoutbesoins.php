@@ -4,7 +4,7 @@ require_once "../includes/auth.php";
 
 session_start();
 checkAuth();
-checkRole(['Sécretaire', 'Admin', 'Médecin']);
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 

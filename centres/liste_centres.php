@@ -4,9 +4,15 @@ require_once '../config/database.php';
 checkAuth();
 
 $db = (new Database())->connect();
-$stmt = $db->prepare("SELECT id_centre FROM centres_collecte ORDER BY id_centre");
+$stmt = $db->prepare("SELECT id_centre, nom_centre, adresse FROM centres_collecte ORDER BY id_centre DESC");
 $stmt->execute();
 $centres = $stmt->fetchAll();
+
+// Affichage d'un message de succès éventuel
+$message = "";
+if (!empty($_GET['msg'])) {
+    $message = htmlspecialchars($_GET['msg']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,65 +23,89 @@ $centres = $stmt->fetchAll();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php include '../includes/header.php'; ?>
-    
-    <div class="container mt-4">
-        <h3>Centres de Collecte</h3>
-        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addcentre">+ Nouveau</button>
-        
-        <table class="table table-striped mt-3">
 
-            <?php if (empty($centres)): ?>
-            <div class="alert alert-info mt-3">Aucun centre trouvé.</div>
-            
-        
-            <?php else: ?>
-            <div class="row">
-            <table class="table table-striped">
-            <tr><th>ID</th><th>CIN</th><th>Groupe</th><th>Rhésus</th></tr>
-                
+<?php include '../includes/header.php'; ?>
+
+<div class="container mt-4">
+
+    <h3 class="mb-3">Centres de Collecte</h3>
+
+    <?php if ($message): ?>
+        <div class="alert alert-success"><?= $message ?></div>
+    <?php endif; ?>
+
+    <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addCentre">
+        + Nouveau Centre
+    </button>
+
+    <?php if (empty($centres)): ?>
+        <div class="alert alert-info">Aucun centre trouvé.</div>
+    <?php else: ?>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Centre</th>
+                    <th>Nom du centre</th>
+                    <th>Adresse</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
                 <?php foreach ($centres as $centre): ?>
                     <tr>
-                        <td></td>
-                    </tr>
-                            
                         <td><?= htmlspecialchars($centre['id_centre']) ?></td>
-                        
-                        
+                        <td><?= htmlspecialchars($centre['nom_centre']) ?></td>
+                        <td><?= htmlspecialchars($centre['adresse']) ?></td>
+                        <td>
+                            <a href="supprimer_centre.php?id=<?= $centre['id_centre'] ?>" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Supprimer ce centre ?');">
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
-
-            </div>
-            
-        <?php endif; ?>
+            </tbody>
         </table>
-    </div>
-    <div class="modal fade" id="addcentre">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <?php endif; ?>
+
+</div>
+
+<!-- Modal Ajout Centre -->
+<div class="modal fade" id="addCentre">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form method="post" action="ajout_centre.php">
+
                 <div class="modal-header">
                     <h5 class="modal-title">Ajouter Centre de Collecte</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" action="ajout_centre.php">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">ID Centre</label>
-                            <input type="text" name="id_centre" class="form-control" required>
-                        </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nom du Centre</label>
+                        <input type="text" name="nom" class="form-control" required>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">ID donneur</label>
-                        </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Adresse</label>
+                        <input type="text" name="adresse" class="form-control" required>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Ajouter</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+
+            </form>
+
         </div>
     </div>
-    <?php include '../includes/footer.php'; ?>
-</body>
+</div>
+<?php include '../includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body> 
 </html>

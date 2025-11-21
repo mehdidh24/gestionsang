@@ -11,7 +11,7 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM donneurs");
 $stmt->execute();
 $donneurs = $stmt->fetchColumn();
 
-$stmt = $db->prepare("SELECT COUNT(*) FROM dons");
+$stmt = $db->prepare("SELECT COUNT(*) FROM dons where statut = 'valide'");
 $stmt->execute();
 $dons = $stmt->fetchColumn();
 

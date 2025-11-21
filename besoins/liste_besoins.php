@@ -3,7 +3,7 @@ require_once '../config/database.php';
 require_once '../includes/auth.php';
 
 checkAuth();
-checkRole(['SECRETAIRE', 'ADMIN', 'Médecin']);
+
 
 $database = new Database();
 $db = $database->connect();
@@ -15,7 +15,7 @@ if (isset($_POST['ajouter_besoin'])) {
     $stmt = $db->prepare("INSERT INTO besoins (groupe_sanguin, niveau_alerte) VALUES (?, ?)");
     $stmt->execute([$groupe_sanguin, $niveau_alerte]);
 
-    header("Location: ".$_SERVER['PHP_SELF']);
+    header("Location: liste_besoins.php");
     exit;
 }
 
