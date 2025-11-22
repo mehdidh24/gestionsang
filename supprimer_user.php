@@ -1,10 +1,10 @@
 <?php
 require_once 'includes/auth.php';
-checkRole(['ADMIN','Médecin']);
+checkRole(['Admin','Médecin']);
 require_once 'config/database.php';
 
 if (!isset($_GET['id'])) {
-    header("Location: gestion_utilisateurs.php");
+    header("Location: utilisateurs.php");
     exit;
 }
 

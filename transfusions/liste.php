@@ -6,18 +6,28 @@ checkRole(['Admin']);
 
 $db = (new Database())->connect();
 
-$stmt = $db->prepare(
-    "SELECT t.id_transfusion, d.id_don, t.date_transfusion, t.hopital_recepteur,
-            dn.cin, dn.groupe_sanguin, dn.rhesus
-     FROM transfusions t
-     JOIN dons d ON t.id_don = d.id_don
-     JOIN donneurs dn ON d.id_donneur = dn.id_donneur
-     ORDER BY t.id_transfusion DESC"
-);
-$stmt->execute();
-$transfusions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Récupérer toutes les transfusions avec infos du donneur
+$transfusions_stmt = $db->query("
+    SELECT t.id_transfusion, t.id_don, t.date_transfusion, t.hopital_recepteur,
+           dn.cin, dn.groupe_sanguin, dn.rhesus
+    FROM transfusions t
+    JOIN dons d ON t.id_don = d.id_don
+    JOIN donneurs dn ON d.id_donneur = dn.id_donneur
+    ORDER BY t.id_transfusion DESC
+");
+$transfusions = $transfusions_stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Récupérer tous les dons au statut "utilisé" pour le formulaire
+$dons_stmt = $db->query("
+    SELECT d.id_don, dn.cin, dn.groupe_sanguin, dn.rhesus
+    FROM dons d
+    JOIN donneurs dn ON d.id_donneur = dn.id_donneur
+    WHERE d.statut = 'utilisé'
+    ORDER BY d.id_don DESC
+");
+$dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,32 +47,43 @@ $transfusions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php if (empty($transfusions)): ?>
         <div class="alert alert-info">Aucune transfusion trouvée.</div>
     <?php else: ?>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>ID Transfusion</th>
-                <th>ID Don</th>
-                <th>CIN Donneur</th>
-                <th>Groupe</th>
-                <th>Rhesus</th>
-                <th>Date</th>
-                <th>Hôpital</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($transfusions as $t): ?>
-            <tr>
-                <td><?= $t['id_transfusion'] ?></td>
-                <td><?= $t['id_don'] ?></td>
-                <td><?= htmlspecialchars($t['cin']) ?></td>
-                <td><?= htmlspecialchars($t['groupe_sanguin']) ?></td>
-                <td><?= htmlspecialchars($t['rhesus']) ?></td>
-                <td><?= $t['date_transfusion'] ?></td>
-                <td><?= htmlspecialchars($t['hopital_recepteur']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID Transfusion</th>
+                    <th>ID Don</th>
+                    <th>CIN Donneur</th>
+                    <th>Groupe</th>
+                    <th>Rhesus</th>
+                    <th>Date</th>
+                    <th>Hôpital</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($transfusions as $t): ?>
+                <tr>
+                    <td><?= htmlspecialchars($t['id_transfusion']) ?></td>
+                    <td><?= htmlspecialchars($t['id_don']) ?></td>
+                    <td><?= htmlspecialchars($t['cin']) ?></td>
+                    <td><?= htmlspecialchars($t['groupe_sanguin']) ?></td>
+                    <td><?= htmlspecialchars($t['rhesus']) ?></td>
+                    <td><?= htmlspecialchars($t['date_transfusion']) ?></td>
+                    <td><?= htmlspecialchars($t['hopital_recepteur']) ?></td>
+                
+                    <td>
+                    <a href="modifier_transfusion.php?id_transfusion=<?= $t['id_transfusion'] ?>" class="btn btn-sm btn-primary">Modifier</a>
+                    <a href="supprimer_transfusion.php?id_transfusion=<?= $don['id_transfusion'] ?>"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Supprimer ce don ?')">
+                            Supprimer
+                    </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <tr></tr>
+            </tbody>
+        </table>
     <?php endif; ?>
 </div>
 
@@ -78,12 +99,12 @@ $transfusions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <div class="modal-body">
-                    <label class="form-label">ID Don</label>
+                    <label class="form-label">ID Don (statut utilisé)</label>
                     <select name="id_don" class="form-control" required>
-                        <option value="">-- Choisir --</option>
+                        <option value="">-- Choisir un don --</option>
                         <?php foreach ($dons as $d): ?>
                             <option value="<?= $d['id_don'] ?>">
-                                
+                                <?= htmlspecialchars($d['id_don']) ?> | CIN: <?= htmlspecialchars($d['cin']) ?> | Groupe: <?= htmlspecialchars($d['groupe_sanguin']) ?><?= htmlspecialchars($d['rhesus']) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -103,9 +124,10 @@ $transfusions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
         </div>
     </div>
+    
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <?php include '../includes/footer.php'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

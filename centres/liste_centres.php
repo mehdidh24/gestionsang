@@ -2,7 +2,7 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
-
+checkRole(['Admin']);
 $db = (new Database())->connect();
 $stmt = $db->prepare("SELECT id_centre, nom_centre, adresse FROM centres_collecte ORDER BY id_centre DESC");
 $stmt->execute();
@@ -62,6 +62,12 @@ if (!empty($_GET['msg'])) {
                                onclick="return confirm('Supprimer ce centre ?');">
                                 Supprimer
                             </a>
+                            <a href="modifier_centre.php?id=<?= htmlspecialchars($centre['id_centre']) ?>" 
+                                class="btn btn-primary btn-sm"
+                                onclick="return confirm('Modifier ce centre ?');">
+                                Modifier
+                            </a>
+
                         </td>
                     </tr>
                 <?php endforeach; ?>

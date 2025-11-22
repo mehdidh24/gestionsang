@@ -2,7 +2,7 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
-checkRole(['Admin']); // Seulement ADMIN
+checkRole(['Admin','Secretaire']); 
 $db = (new Database())->connect();
 
 $stmt = $db->prepare("
@@ -66,9 +66,15 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
                     <td>
                         <a href="supprimer_don.php?id_don=<?= $don['id_don'] ?>"
                            class="btn btn-sm btn-danger"
-                           onclick="return confirm('Supprimer ce don ?')">
+                           >
                             Supprimer
                         </a>
+                        <a href="modifier_don.php?id_don=<?= $don['id_don'] ?>"
+                           class="btn btn-sm btn-primary"
+                           >
+                            modifier
+                        </a>
+                        
                     </td>
                 </tr>
             <?php endforeach; ?>

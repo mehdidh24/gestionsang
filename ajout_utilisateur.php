@@ -1,7 +1,7 @@
 <?php
 require_once 'config/database.php';
 require_once 'includes/auth.php';
-checkRole(['ADMIN','Médecin']); // sécurité
+checkRole(['Admin','Médecin']); 
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: utilisateurs.php");

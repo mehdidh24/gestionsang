@@ -2,9 +2,8 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
-
+checkRole(['Admin','Secretaire']); 
 $db = (new Database())->connect();
-
 
 $where = "WHERE 1 ";
 $params = [];
@@ -20,7 +19,7 @@ if (!empty($_GET['ville'])) {
 }
 
 $limit = 5;
-$page  = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$page  = isset($_GET['page']) ? max(intval($_GET['page']), 1) : 1;
 $offset = ($page - 1) * $limit;
 
 $stmtCount = $db->prepare("SELECT COUNT(*) FROM donneurs $where");
@@ -32,8 +31,8 @@ $sql = "SELECT * FROM donneurs $where ORDER BY id_donneur DESC LIMIT $limit OFFS
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +47,6 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h3>Liste des Donneurs</h3>
 
     <form method="GET" class="row g-3 mt-3 mb-3">
-
         <div class="col-md-3">
             <label>Groupe sanguin</label>
             <select name="groupe_sanguin" class="form-select">
@@ -63,8 +61,7 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <div class="col-md-3">
             <label>Ville</label>
-            <input type="text" name="ville" class="form-control" placeholder="Ville..."
-                   value="<?= $_GET['ville'] ?? '' ?>">
+            <input type="text" name="ville" class="form-control" placeholder="Ville..." value="<?= htmlspecialchars($_GET['ville'] ?? '') ?>">
         </div>
 
         <div class="col-md-3 mt-4">
@@ -73,7 +70,7 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </form>
 
-    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addDonneur">+ Nouveau</button>
+    <a href="ajout_donneur.php" class="btn btn-success btn-sm mb-3">+ Nouveau</a>
 
     <table class="table table-striped mt-3">
         <thead>
@@ -86,80 +83,48 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Actions</th>
             </tr>
         </thead>
-
-        <?php foreach($donneurs as $d): ?>
-        <tr>
-            <td><?= $d['id_donneur'] ?></td>
-            <td><?= $d['cin'] ?></td>
-            <td><?= $d['groupe_sanguin'] ?></td>
-            <td><?= $d['rhesus'] ?></td>
-            <td><?= htmlspecialchars($d['ville']) ?></td>
-            <td>
-                <a href="supprimer_donneur.php?id_donneur=<?= $d['id_donneur'] ?>"
-                    class="btn btn-sm btn-danger"
-                    onclick="return confirm('Supprimer ce donneur ?')">Supprimer</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
+        <tbody>
+            <?php foreach($donneurs as $d): ?>
+                <tr>
+                    <td><?= $d['id_donneur'] ?></td>
+                    <td><?= htmlspecialchars($d['cin']) ?></td>
+                    <td><?= htmlspecialchars($d['groupe_sanguin']) ?></td>
+                    <td><?= htmlspecialchars($d['rhesus']) ?></td>
+                    <td><?= htmlspecialchars($d['ville']) ?></td>
+                    <td>
+                        <a href="supprimer_donneur.php?id_donneur=<?= $d['id_donneur'] ?>" 
+                           class="btn btn-sm btn-danger"
+                           >Supprimer</a>
+                        <a href="modifier_donneurs.php?id_donneur=<?= $d['id_donneur'] ?>" class="btn btn-sm btn-primary">Modifier</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
     </table>
 
-    
+    <nav>
+      <ul class="pagination">
+        <?php if ($page > 1): ?>
+          <li class="page-item">
+            <a class="page-link" href="?page=<?= $page - 1 ?>&amp;groupe_sanguin=<?= urlencode($_GET['groupe_sanguin'] ?? '') ?>&amp;ville=<?= urlencode($_GET['ville'] ?? '') ?>">Précédent</a>
+          </li>
+        <?php endif; ?>
+
+        <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+          <li class="page-item <?= $p == $page ? 'active' : '' ?>">
+            <a class="page-link" href="?page=<?= $p ?>&amp;groupe_sanguin=<?= urlencode($_GET['groupe_sanguin'] ?? '') ?>&amp;ville=<?= urlencode($_GET['ville'] ?? '') ?>"><?= $p ?></a>
+          </li>
+        <?php endfor; ?>
+
+        <?php if ($page < $totalPages): ?>
+          <li class="page-item">
+            <a class="page-link" href="?page=<?= $page + 1 ?>&amp;groupe_sanguin=<?= urlencode($_GET['groupe_sanguin'] ?? '') ?>&amp;ville=<?= urlencode($_GET['ville'] ?? '') ?>">Suivant</a>
+          </li>
+        <?php endif; ?>
+      </ul>
+    </nav>
 
 </div>
-
-<div class="modal fade" id="addDonneur">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            
-            <div class="modal-header">
-                <h5 class="modal-title">Ajouter Donneur</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <form method="post" action="ajout_donneur.php">
-                <div class="modal-body">
-
-                    <div class="mb-3">
-                        <label class="form-label">CIN</label>
-                        <input type="text" name="cin" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Groupe sanguin</label>
-                        <select name="groupe_sanguin" class="form-control" required>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="AB">AB</option>
-                            <option value="O">O</option>
-                        </select>
-                    </div>  
-
-                    <div class="mb-3">
-                        <label class="form-label">Rhésus</label>
-                        <select name="rhesus" class="form-control" required>
-                            <option value="+">+</option>
-                            <option value="-">-</option>
-                        </select>
-                    </div>   
-
-                    <div class="mb-3">
-                        <label class="form-label">Ville</label>
-                        <input type="text" name="ville" class="form-control" required>
-                    </div>  
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
-
-
 
 <?php include '../includes/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

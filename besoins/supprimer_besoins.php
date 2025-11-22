@@ -1,23 +1,31 @@
 <?php
-require_once '../config/database.php';
 require_once '../includes/auth.php';
-
+require_once '../config/database.php';
 checkAuth();
-checkRole(['SECRETAIRE', 'ADMIN', 'Médecin']);
+
+$db = (new Database())->connect();
 
 if (!isset($_GET['id'])) {
-    header('Location: liste_besoins.php');
+    header("Location: liste_besoins.php?msg=ID manquant");
     exit;
 }
 
-$id_besoin = $_GET['id'];
+$id = $_GET['id'];
 
-$database = new Database();
-$db = $database->connect();
+// Vérifier que le besoin existe
+$stmt = $db->prepare("SELECT * FROM besoins WHERE id_besoin = ?");
+$stmt->execute([$id]);
+$besoin = $stmt->fetch();
 
+if (!$besoin) {
+    header("Location: liste_besoins.php?msg=Besoin non trouvé");
+    exit;
+}
+
+// Supprimer le besoin
 $stmt = $db->prepare("DELETE FROM besoins WHERE id_besoin = ?");
-$stmt->execute([$id_besoin]);
+$stmt->execute([$id]);
 
-header('Location: liste_besoins.php');
+header("Location: liste_besoins.php?msg=Besoin supprimé avec succès");
 exit;
 ?>

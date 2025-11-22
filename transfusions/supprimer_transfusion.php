@@ -1,34 +1,24 @@
 <?php
-require_once '../config/database.php';
 require_once '../includes/auth.php';
+require_once '../config/database.php';
+checkAuth();
+checkRole(['Admin']); 
 
-checkRole(['Admin', 'MEDECIN']);
 
-$db = (new Database())->connect();
-
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: liste.php");
-    exit;
+if (!isset($_GET['id_transfusion']) || !is_numeric($_GET['id_transfusion'])) {
+    header("Location: liste_.php");
+    exit();
 }
 
-$id = $_GET['id'];
+$id_don = $_GET['id_transfusion'];
 
-$stmt = $db->prepare("SELECT id_don FROM transfusions WHERE id_transfusion = ?");
-$stmt->execute([$id]);
-$transfusion = $stmt->fetch();
+$database = new Database();
+$db = $database->connect();
 
-if (!$transfusion) {
-    header("Location: liste.php?error=notfound");
-    exit;
-}
+$stmt = $db->prepare("DELETE FROM transfusions WHERE id_transfusion = ?");
+$stmt->execute([$id_transfusion]);
 
-$id_don = $transfusion['id_don'];
+header("Location: liste.php");
+exit();
 
-$delete = $db->prepare("DELETE FROM transfusions WHERE id_transfusion = ?");
-$delete->execute([$id]);
 
-$update = $db->prepare("UPDATE dons SET statut = 'en stock' WHERE id_don = ?");
-$update->execute([$id_don]);
-
-header("Location: liste.php?success=deleted");
-exit;
