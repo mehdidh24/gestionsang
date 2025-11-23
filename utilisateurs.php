@@ -5,7 +5,7 @@ require_once 'config/database.php';
 checkRole(['Admin']);
 $db = (new Database())->connect();
 
-// Code ajout utilisateur via formulaire modal
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_utilisateur'])) {
     $nom = $_POST['nom'];
     $role = strtoupper($_POST['role']);
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_utilisateur']
     }
 }
 
-// Liste des utilisateurs
+
 $stmt = $db->prepare("SELECT id_utilisateur, nom, role FROM utilisateurs ORDER BY nom");
 $stmt->execute();
 $users = $stmt->fetchAll();
@@ -70,7 +70,6 @@ $users = $stmt->fetchAll();
     <?php endif; ?>
 </div>
 
-<!-- Modal Ajout Utilisateur -->
 <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

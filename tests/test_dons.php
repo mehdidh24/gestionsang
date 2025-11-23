@@ -6,7 +6,7 @@ checkRole(['Admin','Médecin']);
 
 $db = (new Database())->connect();
 
-// Récupérer les dons non validés ou non testés
+
 $dons = $db->query("
     SELECT d.id_don, d.id_centre, d.statut, dn.id_donneur, dn.cin, dn.groupe_sanguin, dn.rhesus
     FROM dons d

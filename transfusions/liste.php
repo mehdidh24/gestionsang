@@ -1,12 +1,11 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 checkRole(['Admin']); 
 
 $db = (new Database())->connect();
 
-// Récupérer toutes les transfusions avec infos du donneur
 $transfusions_stmt = $db->query("
     SELECT t.id_transfusion, t.id_don, t.date_transfusion, t.hopital_recepteur,
            dn.cin, dn.groupe_sanguin, dn.rhesus
@@ -17,7 +16,7 @@ $transfusions_stmt = $db->query("
 ");
 $transfusions = $transfusions_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Récupérer tous les dons au statut "utilisé" pour le formulaire
+
 $dons_stmt = $db->query("
     SELECT d.id_don, dn.cin, dn.groupe_sanguin, dn.rhesus
     FROM dons d
@@ -73,7 +72,7 @@ $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
                 
                     <td>
                     <a href="modifier_transfusion.php?id_transfusion=<?= $t['id_transfusion'] ?>" class="btn btn-sm btn-primary">Modifier</a>
-                    <a href="supprimer_transfusion.php?id_transfusion=<?= $don['id_transfusion'] ?>"
+                    <a href="supprimer_transfusion.php?id_transfusion=<?= $t['id_transfusion'] ?>"
                            class="btn btn-sm btn-danger"
                            onclick="return confirm('Supprimer ce don ?')">
                             Supprimer
@@ -87,7 +86,7 @@ $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 </div>
 
-<!-- Modal d'ajout -->
+
 <div class="modal fade" id="addTransfusion">
     <div class="modal-dialog">
         <div class="modal-content">

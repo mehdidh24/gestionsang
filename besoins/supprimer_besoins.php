@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 
 $db = (new Database())->connect();
 
@@ -12,7 +12,7 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-// Vérifier que le besoin existe
+
 $stmt = $db->prepare("SELECT * FROM besoins WHERE id_besoin = ?");
 $stmt->execute([$id]);
 $besoin = $stmt->fetch();
@@ -22,7 +22,7 @@ if (!$besoin) {
     exit;
 }
 
-// Supprimer le besoin
+
 $stmt = $db->prepare("DELETE FROM besoins WHERE id_besoin = ?");
 $stmt->execute([$id]);
 

@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 checkRole(['Admin','Secretaire']); 
 $db = (new Database())->connect();
 

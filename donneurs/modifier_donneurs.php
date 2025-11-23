@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 checkRole(['Admin','Secretaire']); 
 $db = (new Database())->connect();
 
@@ -11,7 +11,7 @@ if (!$id) {
     exit;
 }
 
-// Récupération des données existantes du donneur
+
 $stmt = $db->prepare("SELECT * FROM donneurs WHERE id_donneur = ?");
 $stmt->execute([$id]);
 $donneur = $stmt->fetch(PDO::FETCH_ASSOC);

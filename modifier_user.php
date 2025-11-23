@@ -2,12 +2,12 @@
 require_once 'includes/auth.php';
 require_once 'config/database.php';
 
-checkAuth();
+
 checkRole(['Admin']);
 
 $db = (new Database())->connect();
 
-// Récupération de l'id utilisateur depuis l'URL
+
 $id = $_GET['id_utilisateur'] ?? null;
 if (!$id) {
     header("Location: utilisateurs.php?msg=id_manquant");

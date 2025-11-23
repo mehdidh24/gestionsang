@@ -1,14 +1,14 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 checkRole(['Admin']);
 $db = (new Database())->connect();
 $stmt = $db->prepare("SELECT id_centre, nom_centre, adresse FROM centres_collecte ORDER BY id_centre DESC");
 $stmt->execute();
 $centres = $stmt->fetchAll();
 
-// Affichage d'un message de succès éventuel
+
 $message = "";
 if (!empty($_GET['msg'])) {
     $message = htmlspecialchars($_GET['msg']);
@@ -77,7 +77,7 @@ if (!empty($_GET['msg'])) {
 
 </div>
 
-<!-- Modal Ajout Centre -->
+
 <div class="modal fade" id="addCentre">
     <div class="modal-dialog">
         <div class="modal-content">

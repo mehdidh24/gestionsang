@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 
 $db = (new Database())->connect();
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $nom = trim($_POST['nom']);
         $adresse = trim($_POST['adresse']);
 
-        // On ne fournit pas id_centre, MySQL le génère automatiquement
+       
         $stmt = $db->prepare("INSERT INTO centres_collecte (nom_centre, adresse) VALUES (:nom, :adresse)");
         $stmt->execute([
             ':nom' => $nom,

@@ -1,19 +1,18 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 checkRole(['Admin']);
 
 $db = (new Database())->connect();
 
-// Récupération de l'id_transfusion depuis l'URL
+
 $id_transfusion = $_GET['id_transfusion'] ?? null;
 if (!$id_transfusion) {
     header("Location: liste.php?msg=id_manquant");
     exit;
 }
 
-// Récupérer la transfusion
 $stmt = $db->prepare("
     SELECT t.id_transfusion, t.id_don, t.date_transfusion, t.hopital_recepteur,
            dn.cin, dn.groupe_sanguin, dn.rhesus
@@ -30,7 +29,7 @@ if (!$transfusion) {
     exit;
 }
 
-// Liste des dons utilisés pour le select
+
 $dons_stmt = $db->query("
     SELECT d.id_don, dn.cin, dn.groupe_sanguin, dn.rhesus
     FROM dons d
@@ -40,7 +39,7 @@ $dons_stmt = $db->query("
 ");
 $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Traitement modification formulaire
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_don = $_POST['id_don'];
     $date_transfusion = $_POST['date_transfusion'];

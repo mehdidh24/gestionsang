@@ -2,7 +2,7 @@
 require_once 'includes/auth.php';
 require_once 'config/database.php';
 
-checkAuth();
+
 
 $database = new Database();
 $db = $database->connect();
@@ -20,7 +20,7 @@ $stmt = $db->prepare("SELECT COUNT(*) FROM centres_collecte");
 $stmt->execute();
 $centres = $stmt->fetchColumn();
 
-// Alertes
+
 $query_alertes = "SELECT groupe_sanguin, niveau_alerte FROM besoins WHERE niveau_alerte IN ('URGENT', 'CRITIQUE')";
 $stmt = $db->prepare($query_alertes);
 $stmt->execute();
@@ -64,7 +64,7 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mt-4">
     <h2>Tableau de Bord <small class="text-muted">Bienvenue, <?= htmlspecialchars($_SESSION['nom']) ?></small></h2>
 
-    <!-- Cartes statistiques colorées -->
+    
     <div class="row mt-4">
         <div class="col-md-4 mb-3">
             <div class="card-stat bg-blue">
@@ -86,7 +86,7 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- Alertes -->
+   
     <div class="card mt-4">
         <div class="card-header">Alertes</div>
         <div class="card-body">

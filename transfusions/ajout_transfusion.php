@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 checkRole(['Admin']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

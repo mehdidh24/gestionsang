@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-checkAuth();
+
 
 $db = (new Database())->connect();
 
@@ -11,7 +11,7 @@ if (!$id) {
     exit;
 }
 
-// Charger les infos du centre
+
 $stmt = $db->prepare("SELECT * FROM centres_collecte WHERE id_centre = ?");
 $stmt->execute([$id]);
 $centre = $stmt->fetch();
