@@ -18,7 +18,7 @@ if (!empty($_GET['ville'])) {
     $params[] = "%".$_GET['ville']."%";
 }
 
-$limit = 5;
+$limit = 7;
 $page  = isset($_GET['page']) ? max(intval($_GET['page']), 1) : 1;
 $offset = ($page - 1) * $limit;
 
@@ -70,7 +70,7 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </form>
 
-    <a href="ajout_donneur.php" class="btn btn-success btn-sm mb-3">+ Nouveau</a>
+    <a href="ajout_donneur.php" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addDonorModal">+ Nouveau</a>
 
     <table class="table table-striped mt-3">
         <thead>
@@ -125,6 +125,52 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </nav>
 
 </div>
+
+<div class="modal fade" id="addDonorModal" tabindex="-1" aria-labelledby="addDonorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="ajout_donneur.php">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addDonorLabel">Ajouter un Donneur</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="cin" class="form-label">CIN</label>
+            <input type="text" class="form-control" id="cin" name="cin" required>
+          </div>
+          <div class="mb-3">
+            <label for="groupe_sanguin" class="form-label">Groupe Sanguin</label>
+            <select class="form-select" id="groupe_sanguin" name="groupe_sanguin" required>
+              <option value="">-- Choisir --</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="AB">AB</option>
+              <option value="O">O</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="rhesus" class="form-label">Rhésus</label>
+            <select class="form-select" id="rhesus" name="rhesus" required>
+              <option value="">-- Choisir --</option>
+              <option value="+">+</option>
+              <option value="-">-</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="ville" class="form-label">Ville</label>
+            <input type="text" class="form-control" id="ville" name="ville" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Ajouter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <?php include '../includes/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

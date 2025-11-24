@@ -1,19 +1,22 @@
 <?php
 require_once 'includes/auth.php';
-checkRole(['Admin','Médecin']);
 require_once 'config/database.php';
+checkRole(['Admin']);
+$database = new Database();
+$db = $database->connect();
 
-if (!isset($_GET['id'])) {
+
+if (!isset($_GET['id_utilisateur'])) {
     header("Location: utilisateurs.php");
     exit;
 }
 
-$id = intval($_GET['id']);
-$db = (new Database())->connect();
+$id = $_GET['id_utilisateur'];
+
 
 $stmt = $db->prepare("DELETE FROM utilisateurs WHERE id_utilisateur = ?");
 $stmt->execute([$id]);
 
-header("Location:utilisateurs.php");
+header("Location: utilisateurs.php");
 exit;
 ?>

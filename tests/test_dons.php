@@ -7,14 +7,18 @@ checkRole(['Admin','Médecin']);
 $db = (new Database())->connect();
 
 
-$dons = $db->query("
-    SELECT d.id_don, d.id_centre, d.statut, dn.id_donneur, dn.cin, dn.groupe_sanguin, dn.rhesus
+
+$stmt = $db->prepare("
+    SELECT d.id_don, d.id_centre, d.statut, 
+           dn.id_donneur, dn.cin, dn.groupe_sanguin, dn.rhesus
     FROM dons d
     LEFT JOIN donneurs dn ON d.id_donneur = dn.id_donneur
-    WHERE d.statut='en stock';
+    WHERE d.statut = ?
     ORDER BY d.id_don DESC
-")->fetchAll(PDO::FETCH_ASSOC);
+");
 
+$stmt->execute(['en stock']);
+$dons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>

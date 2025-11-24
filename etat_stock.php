@@ -5,12 +5,12 @@ checkAuth();
 checkRole(['Admin']);
 $db = (new Database())->connect();
 
-$stmt = $db->query("
+$stmt = $db->prepare("
     SELECT 
         dn.groupe_sanguin,
         dn.rhesus,
         COUNT(*) AS total_dons,
-        SUM(CASE WHEN d.statut = 'EN STOCK' THEN 1 ELSE 0 END) AS stock,
+        SUM(CASE WHEN d.statut = 'en stock' THEN 1 ELSE 0 END) AS stock,
         SUM(CASE WHEN d.statut = 'utilisé' THEN 1 ELSE 0 END) AS utilises,
         SUM(CASE WHEN d.statut = 'rejeté' THEN 1 ELSE 0 END) AS rejetés,
         SUM(CASE WHEN d.statut = 'valide' THEN 1 ELSE 0 END) AS validés,
@@ -22,7 +22,7 @@ $stmt = $db->query("
     GROUP BY dn.groupe_sanguin, dn.rhesus
     ORDER BY dn.groupe_sanguin ASC, dn.rhesus ASC
 ");
-
+$stmt->execute();
 $stats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>

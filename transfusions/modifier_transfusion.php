@@ -29,15 +29,16 @@ if (!$transfusion) {
     exit;
 }
 
-
-$dons_stmt = $db->query("
+$dons_stmt = $db->prepare("
     SELECT d.id_don, dn.cin, dn.groupe_sanguin, dn.rhesus
     FROM dons d
     JOIN donneurs dn ON d.id_donneur = dn.id_donneur
     WHERE d.statut = 'utilisé'
     ORDER BY d.id_don DESC
 ");
+$dons_stmt->execute([]);
 $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

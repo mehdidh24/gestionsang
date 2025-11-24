@@ -7,7 +7,7 @@ $db = (new Database())->connect();
 
 $id = $_GET['id'] ?? null;
 if (!$id) {
-    header("Location: centres_collecte.php");
+    header("Location: liste_centres.php");
     exit;
 }
 
@@ -17,7 +17,7 @@ $stmt->execute([$id]);
 $centre = $stmt->fetch();
 
 if (!$centre) {
-    header("Location: centres_collecte.php?msg=Centre non trouvé");
+    header("Location: liste_centres.php?msg=Centre non trouvé");
     exit;
 }
 
