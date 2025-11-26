@@ -2,7 +2,7 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
-checkRole(['Admin','Secretaire']); 
+checkRole(['Admin','Sécrétaire']); 
 $db = (new Database())->connect();
 
 $stmt = $db->prepare("
@@ -26,7 +26,7 @@ $centres = $db->query("SELECT id_centre FROM centres_collecte ORDER BY id_centre
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-4">
-    <h3>Liste des Dons</h3>
+    <h1>Liste des Dons</h1>
     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addDon">+ Nouveau</button>
 
     <?php if (empty($dons)): ?>

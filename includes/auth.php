@@ -17,7 +17,5 @@ function checkRole($allowed_roles) {
     }
 }
 
-function canAccess($allowed_roles) {
-    return isset($_SESSION['role']) && in_array($_SESSION['role'], $allowed_roles);
-}
+
 

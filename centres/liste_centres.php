@@ -28,7 +28,7 @@ if (!empty($_GET['msg'])) {
 
 <div class="container mt-4">
 
-    <h3 class="mb-3">Centres de Collecte</h3>
+    <h1 class="mb-3">Centres de Collecte</h1>
 
     <?php if ($message): ?>
         <div class="alert alert-success"><?= $message ?></div>

@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="adresse" class="form-control" value="<?= htmlspecialchars($centre['adresse']) ?>" required>
         </div>
         <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="centres_collecte.php" class="btn btn-secondary">Annuler</a>
+        <a href="liste_centres.php" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 </body>

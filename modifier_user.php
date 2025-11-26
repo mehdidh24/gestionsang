@@ -2,11 +2,8 @@
 require_once 'includes/auth.php';
 require_once 'config/database.php';
 
-
 checkRole(['Admin']);
-
 $db = (new Database())->connect();
-
 
 $id = $_GET['id_utilisateur'] ?? null;
 if (!$id) {
@@ -14,7 +11,7 @@ if (!$id) {
     exit;
 }
 
-// Récupération de l'utilisateur pour pré-remplir le formulaire
+
 $stmt = $db->prepare("SELECT * FROM utilisateurs WHERE id_utilisateur = ?");
 $stmt->execute([$id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -24,23 +21,31 @@ if (!$user) {
     exit;
 }
 
-// Traitement formulaire après soumission
+
+$centreStmt = $db->prepare("SELECT id_centre, nom_centre FROM centres_collecte ORDER BY nom_centre");
+$centreStmt->execute();
+$centres = $centreStmt->fetchAll(PDO::FETCH_ASSOC);
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
     $nom = trim($_POST['nom']);
     $role = trim($_POST['role']);
-
+    $centre = trim($_POST['centre_collecte']); 
+    $params = [$nom, $role];
+    
     if (!empty($_POST['password'])) {
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $query = "UPDATE utilisateurs SET nom = ?, role = ?, mot_de_passe = ? WHERE id_utilisateur = ?";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$nom, $role, $password, $id]);
+        $query = "UPDATE utilisateurs SET nom = ?, role = ?, mot_de_passe = ?, id_centre = ? WHERE id_utilisateur = ?";
+        $params[] = $password;
+        $params[] = intval($centre);
+        $params[] = $id;
     } else {
-        $query = "UPDATE utilisateurs SET nom = ?, role = ? WHERE id_utilisateur = ?";
-        $stmt = $db->prepare($query);
-        $stmt->execute([$nom, $role, $id]);
+        $query = "UPDATE utilisateurs SET nom = ?, role = ?, id_centre = ? WHERE id_utilisateur = ?";
+        $params[] = intval($centre);
+        $params[] = $id;
     }
-
+    $stmt = $db->prepare($query);
+    $stmt->execute($params);
     header("Location: utilisateurs.php?msg=modifie");
     exit;
 }
@@ -79,6 +84,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="ADMIN" <?= $user['role'] == 'ADMIN' ? 'selected' : '' ?>>ADMIN</option>
                     <option value="MEDECIN" <?= $user['role'] == 'MEDECIN' ? 'selected' : '' ?>>MEDECIN</option>
                     <option value="SECRETAIRE" <?= $user['role'] == 'SECRETAIRE' ? 'selected' : '' ?>>SECRETAIRE</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Centre de collecte</label>
+                <select name="centre_collecte" class="form-select" required>
+                    <option value="">-- Choisir Centre --</option>
+                    <?php foreach ($centres as $centre): ?>
+                        <option value="<?= htmlspecialchars($centre['id_centre']) ?>" <?= $centre['id_centre'] == $user['id_centre'] ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($centre['nom_centre']) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 

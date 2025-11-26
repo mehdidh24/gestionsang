@@ -2,7 +2,7 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 
-checkRole(['Admin','Secretaire']); 
+
 if (!isset($_GET['id_donneur']) || !is_numeric($_GET['id_donneur'])) {
     header("Location: liste_donneurs.php");
     exit();

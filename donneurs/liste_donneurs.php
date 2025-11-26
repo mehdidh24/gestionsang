@@ -2,33 +2,34 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 
-checkRole(['Admin','Secretaire']); 
+checkRole(['Admin','Sécrétaire']); 
 $db = (new Database())->connect();
 
-$where = "WHERE 1 ";
 $params = [];
+$where = [];
 
 if (!empty($_GET['groupe_sanguin'])) {
-    $where .= " AND groupe_sanguin = ? ";
+    $where[] = "groupe_sanguin = ?";
     $params[] = $_GET['groupe_sanguin'];
 }
 
 if (!empty($_GET['ville'])) {
-    $where .= " AND ville LIKE ? ";
+    $where[] = "ville LIKE ?";
     $params[] = "%".$_GET['ville']."%";
 }
 
+$whereSql = $where ? "WHERE " . implode(" AND ", $where) : "";
+
 $limit = 7;
-$page  = isset($_GET['page']) ? max(intval($_GET['page']), 1) : 1;
+$page = max(1, intval($_GET['page'] ?? 1));
 $offset = ($page - 1) * $limit;
 
-$stmtCount = $db->prepare("SELECT COUNT(*) FROM donneurs $where");
+$stmtCount = $db->prepare("SELECT COUNT(*) FROM donneurs $whereSql");
 $stmtCount->execute($params);
 $total = $stmtCount->fetchColumn();
 $totalPages = ceil($total / $limit);
 
-$sql = "SELECT * FROM donneurs $where ORDER BY id_donneur DESC LIMIT $limit OFFSET $offset";
-$stmt = $db->prepare($sql);
+$stmt = $db->prepare("SELECT * FROM donneurs $whereSql ORDER BY id_donneur DESC LIMIT $limit OFFSET $offset");
 $stmt->execute($params);
 $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -44,7 +45,7 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-4">
-    <h3>Liste des Donneurs</h3>
+    <h1>Liste des Donneurs</h1>
 
     <form method="GET" class="row g-3 mt-3 mb-3">
         <div class="col-md-3">

@@ -24,6 +24,7 @@ $dons_stmt = $db->query("
     WHERE d.statut = 'utilisé'
     ORDER BY d.id_don DESC
 ");
+
 $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -40,7 +41,7 @@ $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container mt-4">
 
-    <h3>Liste des Transfusions</h3>
+    <h1>Liste des Transfusions</h1>
     <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addTransfusion">+ Nouveau</button>
 
     <?php if (empty($transfusions)): ?>
@@ -67,7 +68,7 @@ $dons = $dons_stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= htmlspecialchars($t['cin']) ?></td>
                     <td><?= htmlspecialchars($t['groupe_sanguin']) ?></td>
                     <td><?= htmlspecialchars($t['rhesus']) ?></td>
-                    <td><?= htmlspecialchars($t['date_transfusion']) ?></td>
+                    <td><?= date('d-m-Y',strtotime($t['date_transfusion']))?></td>
                     <td><?= htmlspecialchars($t['hopital_recepteur']) ?></td>
                 
                     <td>

@@ -62,7 +62,7 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-4">
-    <h2>Tableau de Bord <small class="text-muted">Bienvenue, <?= htmlspecialchars($_SESSION['nom']) ?></small></h2>
+    <h1>Tableau de Bord <small class="text-muted">Bienvenue, <?= htmlspecialchars($_SESSION['nom']) ?></small></h1>
 
     
     <div class="row mt-4">
@@ -88,7 +88,7 @@ $alertes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    
     <div class="card mt-4">
-        <div class="card-header">Alertes</div>
+        <div class="card-header"><h3>Alertes</h3></div>
         <div class="card-body">
             <?php if (!empty($alertes)): ?>
                 <?php foreach ($alertes as $a): ?>

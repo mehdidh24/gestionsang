@@ -10,9 +10,10 @@ $db = (new Database())->connect();
 
 $stmt = $db->prepare("
     SELECT d.id_don, d.id_centre, d.statut, 
-           dn.id_donneur, dn.cin, dn.groupe_sanguin, dn.rhesus
+           dn.id_donneur, dn.cin, dn.groupe_sanguin, dn.rhesus,t.date_test,t.id_test
     FROM dons d
     LEFT JOIN donneurs dn ON d.id_donneur = dn.id_donneur
+    LEFT JOIN tests_dons t ON d.id_don = t.id_don
     WHERE d.statut = ?
     ORDER BY d.id_don DESC
 ");
@@ -32,7 +33,7 @@ $dons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php include '../includes/header.php'; ?>
 
 <div class="container mt-4">
-    <h2>Dons en Attente de Test</h2>
+    <h1>Dons en Attente de Test</h1>
 
     
 
