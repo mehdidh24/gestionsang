@@ -25,9 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bindParam(":hopital", $hopital);
 
     if ($stmt->execute()) {
-        header("Location: transfusions/liste.php?success=1");
+        header("Location: liste_besoins.php?success=1");
     } else {
-        header("Location: transfusions/liste.php?error=1");
+        header("Location: liste_besoins.php?error=1");
     }
     exit;
 }

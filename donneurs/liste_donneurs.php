@@ -71,7 +71,7 @@ $donneurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </form>
 
-    <a href="ajout_donneur.php" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addDonorModal">+ Nouveau</a>
+    <button class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addDonorModal">+ Nouveau</button>
 
     <table class="table table-striped mt-3">
         <thead>

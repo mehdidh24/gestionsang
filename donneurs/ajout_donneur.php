@@ -1,11 +1,11 @@
 <?php
 require_once '../includes/auth.php';
 require_once '../config/database.php';
-
-
+checkRole(['Admin','Sécrétaire']); 
+ $database = new Database();
+$db = $database->connect();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $database = new Database();
-    $db = $database->connect();
+   
     
     $cin = $_POST['cin'];
     $groupe_sanguin = $_POST['groupe_sanguin'];
