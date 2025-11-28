@@ -2,7 +2,7 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
-checkRole(['Admin','Secretaire']); 
+checkRole(['Admin','Sécrétaire']); 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $database = new Database();
     $db = $database->connect();

@@ -51,11 +51,6 @@ $sidebar_visible = !isset($_GET['sidebar']) || $_GET['sidebar'] !== 'hide';
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-       
-
-        
-        
-
         <span class="navbar-text text-white ms-auto">
             <i class="fas fa-user me-1"></i><?= htmlspecialchars($_SESSION['nom']) ?>
             <span class="badge bg-secondary ms-1"><?= $_SESSION['role'] ?? '' ?></span> |
@@ -68,14 +63,23 @@ $sidebar_visible = !isset($_GET['sidebar']) || $_GET['sidebar'] !== 'hide';
 <div class="sidebar">
     <h4 class="text-center mb-4"><i class="fas fa-tint me-2"></i>Dons Sang</h4>
     <a href="/dashboard.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'Admin'): ?>
     <a href="/utilisateurs.php"><i class="fas fa-user-cog me-2"></i>Utilisateurs</a>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['Admin', 'Sécrétaire'])): ?> 
     <a href="/donneurs/liste_donneurs.php"><i class="fas fa-file-alt me-2"></i>Donneurs</a>
     <a href="/dons/liste_dons.php"><i class="fas fa-tint me-2"></i>Dons</a>
+    <?php endif; ?>
     <a href="/transfusions/liste.php"><i class="fas fa-hand-holding-medical me-2"></i>Transfusions</a>
+    <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['Admin', 'Médecin'])): ?>
     <a href="/tests/test_dons.php"><i class="fas fa-vial me-2"></i>Tests</a>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['Admin'])): ?>
     <a href="/besoins/liste_besoins.php"><i class="fas fa-exclamation-triangle me-2"></i>Besoins</a>
     <a href="/etat_stock.php"><i class="fas fa-boxes-stacked me-2"></i>État du Stock</a>
     <a href="/centres/liste_centres.php"><i class="fas fa-hospital me-2"></i>Centres</a>
+
+    <?php endif; ?>
 </div>
 <?php endif; ?>
 

@@ -2,7 +2,7 @@
 require_once '../includes/auth.php';
 require_once '../config/database.php';
 
-
+checkRole(['Admin','Sécrétaire']);
 $db = (new Database())->connect();
 
 $id = $_GET['id_donneur'] ?? null;

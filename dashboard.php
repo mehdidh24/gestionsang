@@ -7,7 +7,7 @@ require_once 'config/database.php';
 $database = new Database();
 $db = $database->connect();
 
-// Statistiques
+
 $stmt = $db->prepare("SELECT COUNT(*) FROM donneurs");
 $stmt->execute();
 $donneurs = $stmt->fetchColumn();

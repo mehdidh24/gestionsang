@@ -3,7 +3,7 @@ require_once '../includes/auth.php';
 require_once '../config/database.php';
 checkAuth();
 
-checkRole(['Admin','Secretaire']); 
+checkRole(['Admin','Sécrétaire']); 
 $db = (new Database())->connect();
 
 $id_don = $_GET['id_don'] ?? null;
